@@ -1,0 +1,9 @@
+streamlit
+gensim
+pandas
+numpy
+#scikit-learn
+#seaborn
+#matplotlib
+#psycopg2-binary
+#censusdata
