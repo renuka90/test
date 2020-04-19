@@ -20,7 +20,7 @@ import pandas as pd
 st.title('Semantic Search Engine')
 st.subheader('Find your relevant terms : similar or related')
 # load model data
-model = Word2Vec.load('C:/Thesis/Data/save/Master_Data/Model/paraModified/save_modified_para_12_articles_1.model')
+model = Word2Vec.load('./data/article_data.model')
 
 pos_str = st.text_input('Enter keyword(s)')
 #neg_str = st.text_input('(Optional) Specify as unlike the following word(s)')
