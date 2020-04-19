@@ -11,7 +11,7 @@ import re
 import pandas as pd
 
 
-st.title('Semantic Search Engine Staging')
+st.title('Semantic Search Engine Staging testing')
 st.subheader('Find your relevant terms : similar or related')
 # load model data
 model = Word2Vec.load('./data/article_data.model')
