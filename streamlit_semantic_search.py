@@ -10,6 +10,7 @@ import re
 import pandas as pd
 import nltk
 from nltk.stem import WordNetLemmatizer 
+from textblob import TextBlob 
 
 st.title('Semantic Search Engine Staging')
 st.subheader('Find your relevant terms : similar or related')
@@ -21,11 +22,21 @@ pos_str = pos_str.lower()
 
 # Tokenize: Split the sentence into words
 word_list = nltk.word_tokenize(pos_str)
-lemmatizer = WordNetLemmatizer()
 
+lemmatizer = WordNetLemmatizer()
 # Lemmatize list of words and join
 pos_str = ' '.join([lemmatizer.lemmatize(w) for w in word_list])
-st.write(pos_str)
+#st.write(pos_str)
+
+#textblob for spelling correction
+check_spel = pos_str
+pos_str = TextBlob(check_spel)   
+
+if check_spel != str(pos_str.correct()): 
+    # prints the corrected spelling 
+    st.write("Did you mean : "+str(pos_str.correct()))  
+    st.write("Showing result for : "+str(pos_str.correct())) 
+pos_str = str(pos_str.correct())
 
 # remove spaces both in the beginning and in the end of of string
 pos_str = re.sub("^\s+|\s+$", "", pos_str, flags=re.UNICODE)
@@ -33,9 +44,7 @@ pos_str = re.sub("^\s+|\s+$", "", pos_str, flags=re.UNICODE)
 # any input that is NOT a-z, A-Z, 0-9,-,*
 pos_str = re.sub('[^a-zA-Z0-9-_*.]', ' ', pos_str)
 pos_str = re.sub(' +',' ',  re.sub('\W', ' ', pos_str))
-#lemmatizer = WordNetLemmatizer() 
 
-#pos_words = lemmatizer.lemmatize(pos_str)
 pos_words= pos_str.split(' ')
 
 st.text('Your input')

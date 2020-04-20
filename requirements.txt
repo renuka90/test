@@ -3,6 +3,8 @@ gensim
 pandas
 numpy
 nltk
+textblob
+
 #scikit-learn
 #seaborn
 #matplotlib
