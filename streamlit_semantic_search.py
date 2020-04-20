@@ -4,12 +4,12 @@ Created on Wed Feb 12 00:51:45 2020
 
 @author: Renu
 """
-
 import streamlit as st
 from gensim.models import Word2Vec
 import re
 import pandas as pd
-
+import nltk
+from nltk.stem import WordNetLemmatizer 
 
 st.title('Semantic Search Engine Staging')
 st.subheader('Find your relevant terms : similar or related')
@@ -18,6 +18,15 @@ model = Word2Vec.load('./data/article_data.model')
 
 pos_str = st.text_input('Enter keyword(s)')
 pos_str = pos_str.lower()
+
+# Tokenize: Split the sentence into words
+word_list = nltk.word_tokenize(pos_str)
+lemmatizer = WordNetLemmatizer()
+
+# Lemmatize list of words and join
+pos_str = ' '.join([lemmatizer.lemmatize(w) for w in word_list])
+st.write(pos_str)
+
 # remove spaces both in the beginning and in the end of of string
 pos_str = re.sub("^\s+|\s+$", "", pos_str, flags=re.UNICODE)
 
