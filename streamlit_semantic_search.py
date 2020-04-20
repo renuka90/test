@@ -47,7 +47,7 @@ pos_str = re.sub(' +',' ',  re.sub('\W', ' ', pos_str))
 
 pos_words= pos_str.split(' ')
 
-st.text('Your input')
+#st.text('Your input')
 st.write('SIMILAR TO ', pos_str)
 
 if (len(pos_words[0]) > 0):
