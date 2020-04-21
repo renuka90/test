@@ -13,8 +13,7 @@ from nltk.stem import WordNetLemmatizer
 from textblob import TextBlob 
 
 nltk.download('punkt')
-
-SENT_DETECTOR = nltk.data.load('tokenizers/punkt/english.pickle')
+SENT_DETECTOR = nltk.data.load('tokenizers/punkt/PY3/english.pickle')
 
 st.title('Semantic Search Engine Staging')
 st.subheader('Find your relevant terms : similar or related')
