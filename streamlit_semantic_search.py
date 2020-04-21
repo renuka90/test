@@ -12,11 +12,12 @@ import nltk
 from nltk.stem import WordNetLemmatizer 
 from textblob import TextBlob 
 
+from nltk.corpus import wordnet
 nltk.download('punkt')
-nltk.download('wordnet')
-#nltk.data.load('tokenizers/punkt/english.pickle')
+#nltk.download('wordnet')
+nltk.data.load('tokenizers/punkt/english.pickle')
 #nltk.data.load('tokenizers/wordnet/english.pickle')
-SENT_DETECTOR = nltk.data.load('tokenizers/punkt/PY3/english.pickle', 'tokenizers/wordnet/PY3/english.pickle') 
+#SENT_DETECTOR = nltk.data.load('tokenizers/punkt/PY3/english.pickle', 'tokenizers/wordnet/PY3/english.pickle') 
 
 st.title('Semantic Search Engine Staging')
 st.subheader('Find your relevant terms : similar or related')
