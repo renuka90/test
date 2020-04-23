@@ -12,15 +12,12 @@ import nltk
 from nltk.stem import WordNetLemmatizer 
 from textblob import TextBlob 
 
-#nltk.download()
-#from nltk.corpus import wordnet
 nltk.download('punkt')
 nltk.download('wordnet')
-#nltk.data.load('tokenizers/punkt/english.pickle')
-#nltk.data.load('tokenizers/wordnet/english.pickle')
-#SENT_DETECTOR = nltk.data.load('tokenizers/punkt/PY3/english.pickle', 'tokenizers/wordnet/PY3/english.pickle') 
+
 
 st.title('Semantic Search Engine Staging')
+st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
 st.subheader('Find your relevant terms : similar or related')
 # load model data
 model = Word2Vec.load('./data/article_data.model')
@@ -42,8 +39,9 @@ pos_str = TextBlob(check_spel)
 
 if check_spel != str(pos_str.correct()): 
     # prints the corrected spelling 
-    st.write("Did you mean : "+str(pos_str.correct()))  
-    st.write("Showing result for : "+str(pos_str.correct())) 
+    st.markdown('<p style="color:red"> Did you mean: {}</p>'.format(str(pos_str.correct())), unsafe_allow_html=True)
+    st.markdown('<p style="color:Blue"> Showing result for : {}</p>'.format(str(pos_str.correct())), unsafe_allow_html=True)
+    
 pos_str = str(pos_str.correct())
 
 # remove spaces both in the beginning and in the end of of string
