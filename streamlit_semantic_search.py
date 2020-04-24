@@ -16,7 +16,7 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 
-st.title('Semantic Search Engine Staging')
+st.title('Semantic Search Engine test repo')
 st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
 st.subheader('Find your relevant terms : similar or related')
 # load model data
