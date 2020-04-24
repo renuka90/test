@@ -18,7 +18,7 @@ nltk.download('wordnet')
 
 st.title('Semantic Search Engine test repo')
 st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
-st.subheader('Find your relevant terms : similar or related')
+st.subheader('Find the similar terms.')
 # load model data
 model = Word2Vec.load('./data/model_obser_3.model')
 
@@ -53,11 +53,10 @@ pos_str = re.sub(' +',' ',  re.sub('\W', ' ', pos_str))
 
 pos_words= pos_str.split(' ')
 
-#st.text('Your input')
-st.write('SIMILAR TO ', pos_str)
 
 if (len(pos_words[0]) > 0):
 
+    st.write('SIMILAR TO ', pos_str)
     df = pd.DataFrame(model.wv.most_similar(positive = pos_words, topn=10), columns = ['SIMILAR_word', 'similarity'])
     df1 = df[['SIMILAR_word']]
     link_list = []
