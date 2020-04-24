@@ -20,7 +20,7 @@ st.title('Semantic Search Engine Staging')
 st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
 st.subheader('Find your relevant terms : similar or related')
 # load model data
-model = Word2Vec.load('./data/article_data.model')
+model = Word2Vec.load('./data/model_obser_3.model')
 
 pos_str = st.text_input('Enter keyword(s)')
 pos_str = pos_str.lower()
