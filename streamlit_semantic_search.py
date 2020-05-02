@@ -11,9 +11,52 @@ import pandas as pd
 import nltk
 from nltk.stem import WordNetLemmatizer 
 from textblob import TextBlob 
+import math
 
 nltk.download('punkt')
 nltk.download('wordnet')
+
+#Jaro-winkler distance function
+def jaro_similarity(s1, s2):
+    """
+    Computes the Jaro similarity between 2 sequences from:
+    The Jaro distance between is the min no. of single-character transpositions
+    required to change one word into another. The Jaro similarity formula from
+        jaro_sim = 0 if m = 0 else 1/3 * (m/|s_1| + m/s_2 + (m-t)/m)
+    where:
+        - |s_i| is the length of string s_i
+        - m is the no. of matching characters
+        - t is the half no. of possible transpositions.
+    """   
+    # First, store the length of the strings
+    # because they will be re-used several times.
+    len_s1, len_s2 = len(s1), len(s2)
+
+    # The upper bound of the distanc for being a matched character.
+    match_bound = math.floor( max(len(s1), len(s2)) / 2 ) - 1
+
+    # Initialize the counts for matches and transpositions.
+    matches = 0  # no.of matched characters in s1 and s2
+    transpositions = 0  # no. transpositions between s1 and s2
+
+    # Iterate through sequences, check for matches and compute transpositions.
+    for ch1 in s1:     # Iterate through each character.
+        if ch1 in s2:  # Check whether the
+            pos1 = s1.index(ch1)
+            pos2 = s2.index(ch1)
+            if(abs(pos1-pos2) <= match_bound):
+                matches += 1
+                if(pos1 != pos2):
+                    transpositions += 1
+
+    if matches == 0:
+        return 0
+    else:
+        return 1/3 * ( matches/len_s1 +
+                       matches/len_s2 +
+                      (matches-transpositions//2) / matches
+                     )
+#***********************************************************
 
 
 st.title('Semantic Search Engine test repo')
@@ -21,6 +64,32 @@ st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
 st.subheader('Find the similar terms.')
 # load model data
 model = Word2Vec.load('./data/model_obser_3.model')
+
+# get model vocab
+get_model = model.wv.vocab
+#define list to store model
+list_model = []
+for i in get_model:
+    list_model.append(i)
+
+# function to get the closest word with highest similarity score
+def calcJaroDistance(word, numWords):
+
+    dictWordDist = []
+    word_sim = []
+    
+    for line in list_model:          
+        wordDistance = jaro_similarity(word, line)
+        word_sim.append(float(wordDistance))
+        dictWordDist.append(line)
+        
+    d = {'word':dictWordDist,'word_sim':word_sim}
+    
+    # Convert list to pandas
+    df_model = pd.DataFrame(d)
+    df_model = df_model.sort_values(by='word_sim', ascending=False)
+    
+    return df_model.iloc[:numWords]
 
 #get input word
 pos_str = st.text_input('Enter keyword(s)')
@@ -84,11 +153,16 @@ try:
                 
     else:
         if check_spel != str(pos_str.correct()): 
-            # prints the corrected spelling 
-            st.markdown('<p style="color:red"> Did you mean: {}</p>'.format(str(pos_str.correct())), unsafe_allow_html=True)
-            st.markdown('<p style="color:Blue"> Showing result for : {}</p>'.format(str(pos_str.correct())), unsafe_allow_html=True)
             
-        pos_str = str(pos_str.correct())
+            temp = calcJaroDistance(check_spel, 1)
+            temp2 = temp['word']
+            pos_str = temp2.to_string(index=False)
+            
+            # prints the closest similary term
+            st.markdown('<p style="color:red"> Did you mean: {}</p>'.format(str(pos_str)), unsafe_allow_html=True)
+            st.markdown('<p style="color:Blue"> Showing result for : {}</p>'.format(str(pos_str)), unsafe_allow_html=True)
+    
+        pos_str = str(pos_str)
         
          # remove spaces both in the beginning and in the end of of string
         pos_str = re.sub("^\s+|\s+$", "", pos_str, flags=re.UNICODE)
