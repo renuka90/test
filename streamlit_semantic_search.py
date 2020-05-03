@@ -147,7 +147,7 @@ try:
              
              # link is the column with hyperlinks
             df1['SIMILAR'] = df1['SIMILAR'].apply(make_clickable)
-        
+            df1 = df1.rename(index={0:'1',1:'2',2:'3',3:'4',4:'5',5:'6',6:'7',7:'8',8:'9',9:'10'})
             df1 = df1.to_html(escape=False)
             st.write(df1, unsafe_allow_html=True)
                 
@@ -200,7 +200,7 @@ try:
              
              # link is the column with hyperlinks
             df1['SIMILAR'] = df1['SIMILAR'].apply(make_clickable)
-        
+            df1 = df1.rename(index={0:'1',1:'2',2:'3',3:'4',4:'5',5:'6',6:'7',7:'8',8:'9',9:'10'})
             df1 = df1.to_html(escape=False)
             st.write(df1, unsafe_allow_html=True)
 except KeyError:
