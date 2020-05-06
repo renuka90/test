@@ -75,21 +75,50 @@ for i in get_model:
 # function to get the closest word with highest similarity score
 def calcJaroDistance(word, numWords):
 
-    dictWordDist = []
-    word_sim = []
-    
-    for line in list_model:          
-        wordDistance = jaro_similarity(word, line)
-        word_sim.append(float(wordDistance))
-        dictWordDist.append(line)
+    temp = (word.split())
+
+    if len(temp) > 1:
+              
+        word_list =[]
+        word_len =[]
         
-    d = {'word':dictWordDist,'word_sim':word_sim}
-    
-    # Convert list to pandas
-    df_model = pd.DataFrame(d)
-    df_model = df_model.sort_values(by='word_sim', ascending=False)
-    
-    return df_model.iloc[:numWords]
+        for i in temp:
+            
+            dictWordDist = []
+            word_sim = []
+            
+            for line in list_model:  
+                
+                wordDistance = jaro_similarity(i, line)
+                word_sim.append(float(wordDistance))
+                dictWordDist.append(line)
+
+            d = {'word':dictWordDist,'word_sim':word_sim}
+
+            # Convert list to pandas
+            df = pd.DataFrame(d)
+            df = df.sort_values(by='word_sim', ascending=False)
+            #print(df.iloc[:numWords])
+            word_list.append(df['word'].iloc[0])
+            word_len.append(df.iloc[:numWords])
+        return word_list
+    else: 
+     
+        dictWordDist = []
+        word_sim = []
+
+        for line in list_model:          
+            wordDistance = jaro_similarity(word, line)
+            word_sim.append(float(wordDistance))
+            dictWordDist.append(line)
+
+        d = {'word':dictWordDist,'word_sim':word_sim}
+
+        # Convert list to pandas
+        df = pd.DataFrame(d)
+        df = df.sort_values(by='word_sim', ascending=False)
+
+        return df.iloc[:numWords]
 
 #get input word
 pos_str = st.text_input('Enter keyword(s)')
@@ -155,7 +184,9 @@ try:
         if check_spel != str(pos_str.correct()): 
             
             temp = calcJaroDistance(check_spel, 1)
-            temp2 = temp['word']
+            df_data = pd.DataFrame(temp)
+            df_data = df_data.rename(columns={0: "word"})
+            temp2 = df_data['word']
             pos_str = temp2.to_string(index=False)
             
             # prints the closest similary term
@@ -204,4 +235,4 @@ try:
             df1 = df1.to_html(escape=False)
             st.write(df1, unsafe_allow_html=True)
 except KeyError:
-    st.markdown('<h4 style="color:#bc0031;"> We are Sorry, The Search term is not yet included in our model.</h4>', unsafe_allow_html=True) 
+    st.markdown('<h4 style="color:#bc0031;"> WE ARE SORRY, THE SEARCH TERM IS NOT AVAILABLE IN OUR DATABASE.</h4>', unsafe_allow_html=True) 
