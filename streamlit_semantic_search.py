@@ -98,6 +98,7 @@ def calcJaroDistance(word, numWords):
             # Convert list to pandas
             df = pd.DataFrame(d)
             df = df.sort_values(by='word_sim', ascending=False)
+            df = df.loc[(df['word_sim']<=1)]
             #print(df.iloc[:numWords])
             word_list.append(df['word'].iloc[0])
             word_len.append(df.iloc[:numWords])
