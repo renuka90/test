@@ -15,6 +15,7 @@ import math
 
 nltk.download('punkt')
 nltk.download('wordnet')
+pip install xlrd
 
 #Jaro-winkler distance function
 def jaro_similarity(s1, s2):
