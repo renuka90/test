@@ -58,15 +58,54 @@ def jaro_similarity(s1, s2):
                      )
 #***********************************************************
 
+def restrict_w2v(w2v, restricted_word_set):
+    
+    w2v.init_sims()
+    new_vectors = []
+    new_vocab = {}
+    new_index2entity = []
+    new_vectors_norm = []
 
+    for i in range(len(w2v.wv.vocab)):
+        word = w2v.wv.index2entity[i]
+        vec = w2v.wv.vectors[i]
+        vocab = w2v.wv.vocab[word]
+        vec_norm = w2v.wv.vectors_norm[i]
+        if word in restricted_word_set:
+            vocab.index = len(new_index2entity)
+            new_index2entity.append(word)
+            new_vocab[word] = vocab
+            new_vectors.append(vec)
+            new_vectors_norm.append(vec_norm)
+
+    w2v.wv.vocab = new_vocab 
+    w2v.wv.vectors = new_vectors
+    w2v.wv.index2entity = new_index2entity
+    w2v.wv.index2word = new_index2entity
+    w2v.wv.vectors_norm = new_vectors_norm
+    
+    return(w2v)
+
+#****************************************************
 st.title('Semantic Search Engine test repo')
 st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
 st.subheader('Find the similar terms.')
 # load model data
 model = Word2Vec.load('./data/w2v_exclude_invalid_terms_1.model')
 
+#load exclud list items
+df_exclude = pd.read_excel('./data/exclude_list.xlsx', sep=r'\s*,\s*',header=0, encoding='ascii')  
+df_list = df_exclude['word_list'].values.tolist()
+
+#get model vocab index
+model_vocab = model.wv.index2word
+
+# exclude the terms that appears in the exclude list.
+vocab_exclude_invalid_item = [i for i in model_vocab if i not in df_list]
+w2v_developed = restrict_w2v(model, vocab_exclude_invalid_item)
+
 # get model vocab
-get_model = model.wv.vocab
+get_model = w2v_developed.wv.vocab
 #define list to store model
 list_model = []
 for i in get_model:
@@ -156,7 +195,7 @@ try:
         if (len(pos_words[0]) > 0):
         
             st.write('SIMILAR TO ', pos_str)
-            df = pd.DataFrame(model.wv.most_similar(positive = pos_words, topn=10), columns = ['SIMILAR_word', 'similarity'])
+            df = pd.DataFrame(w2v_developed.wv.most_similar(positive = pos_words, topn=10), columns = ['SIMILAR_word', 'similarity'])
             df1 = df[['SIMILAR_word']]
             link_list = []
             for i in df['SIMILAR_word']:
@@ -209,7 +248,7 @@ try:
         if (len(pos_words[0]) > 0):
         
             st.write('SIMILAR TO ', pos_str)
-            df = pd.DataFrame(model.wv.most_similar(positive = pos_words, topn=10), columns = ['SIMILAR_word', 'similarity'])
+            df = pd.DataFrame(w2v_developed.wv.most_similar(positive = pos_words, topn=10), columns = ['SIMILAR_word', 'similarity'])
             df1 = df[['SIMILAR_word']]
             link_list = []
             for i in df['SIMILAR_word']:
