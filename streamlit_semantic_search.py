@@ -63,7 +63,7 @@ st.title('Semantic Search Engine test repo')
 st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
 st.subheader('Find the similar terms.')
 # load model data
-model = Word2Vec.load('./data/word2vec_model1_96_percentile.model')
+model = Word2Vec.load('./data/w2v_exclude_invalid_terms_1.model')
 
 # get model vocab
 get_model = model.wv.vocab
