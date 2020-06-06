@@ -63,8 +63,8 @@ def jaro_similarity(s1, s2):
 
 def restrict_w2v(w2v, restricted_word_set):
     
-    # w2v.init_sims()
-    w2v.wv.init_sims
+    w2v.init_sims()
+    #w2v.wv.init_sims
     new_vectors = []
     new_vocab = {}
     new_index2entity = []
