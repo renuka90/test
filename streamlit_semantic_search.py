@@ -173,7 +173,7 @@ try:
                  # target _blank to open new window
                  # extract clickable text to display for your link
                  text = link.split('=')[3]
-                 return f'<a target="_blank" href="{link}">{text}</a>'
+                 return f'<a target="_blank" href="{link+" employee"}">{text}</a>'
              
              # link is the column with hyperlinks
             df1['SIMILAR'] = df1['SIMILAR'].apply(make_clickable)
@@ -228,7 +228,7 @@ try:
                  # target _blank to open new window
                  # extract clickable text to display for your link
                  text = link.split('=')[3]
-                 return f'<a target="_blank" href="{link}">{text}</a>'
+                 return f'<a target="_blank" href="{link+" employee"}">{text}</a>'
              
              # link is the column with hyperlinks
             df1['SIMILAR'] = df1['SIMILAR'].apply(make_clickable)
