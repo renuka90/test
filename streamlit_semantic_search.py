@@ -6,6 +6,7 @@ Created on Wed Feb 12 00:51:45 2020
 """
 import streamlit as st
 from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
 
 import re
 import pandas as pd
