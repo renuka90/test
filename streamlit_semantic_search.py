@@ -64,11 +64,11 @@ def jaro_similarity(s1, s2):
 
 def restrict_w2v(w2v, restricted_word_set):
     
-     #w2v.init_sims()
+    w2v.init_sims()
     # w2v.init_sims(replace=False)
     # w2v.wv.init_sims(replace=False)
-    wv = w2v.wv
-    wv.init_sims(replace=False)
+    # wv = w2v.wv
+    # wv.init_sims(replace=False)
     
     new_vectors = []
     new_vocab = {}
@@ -100,7 +100,7 @@ st.title('Semantic Search Engine test repo')
 st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
 st.subheader('Find the similar terms.')
 # load model data
-model = Word2Vec.load('./data/w2v_exclude_invalid_terms_1.model')
+model = Word2Vec.load('./data/word2vec_model1_96_percentile.model')
 
 #load exclud list items
 df_exclude = pd.read_excel('./data/exclude_list.xlsx', sep=r'\s*,\s*',header=0, encoding='ascii')  
