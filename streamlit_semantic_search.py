@@ -10,11 +10,25 @@ import textdistance as td # has a working Jaro text distance function
 import re
 import pandas as pd
 import pickle
+from PIL import Image
 
-
-st.title('Semantic Search Tool test repo')
+st.title('People Analytics: Semantic Search Tool')
 st.markdown('<style>h1{color: #bc0031;}</style>', unsafe_allow_html=True)
-st.subheader('Find the relevant terms')
+
+
+st.markdown("""There is a vast body of literature on HRM and how to manage people, which can be useful for<br>
+               designing and executing people analytics projects and to guide evidence-based decisions. <br>
+                However, sometimes the right studies are difficult to find because different terms are used in <br>
+                academic literature. This tool will help you to find relevant search terms and make it easier to<br>
+                find relevant academic studies for the topic you are working on.
+    """, unsafe_allow_html=True)
+
+
+st.markdown("""Fill in your search term(s) below and the tool will provide you with terms that are similar or <br>
+               related to your search term. By clicking on the search results, a Google Scholar search will be  <br>
+                performed for that specific term.
+    """, unsafe_allow_html=True)
+st.subheader('Happy Searching and May You Find What You Need!')
 
 # load model data
 #model = Word2Vec.load('./data/word2vec_model1_96_percentile.model')
@@ -82,3 +96,9 @@ else:
                 
     except KeyError:
         st.markdown('<h4 style="color:#bc0031;"> SORRY, THE SEARCH TERM IS NOT AVAILABLE IN OUR DATABASE.</h4>', unsafe_allow_html=True) 
+st.markdown("""This semantic search tool is developed by the UvA in collaboration with Bright & Company. <br>
+               If you have any feedback or suggestions about this tool, please contact Corine Boon <br>
+               (c.t.boon@uva.nl).
+    """, unsafe_allow_html=True)
+image = Image.open('./data/logo.PNG')
+st.image(image, caption='', width=250)
